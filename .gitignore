@@ -1,4 +1,8 @@
 /node_modules/
 /dist
-/.idea/
-/.idea
+/.idea/*
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+data.json
