@@ -4,7 +4,9 @@ function processesToArr(consoleOutput) {
 }
 
 function getPid(process) {
-    return parseInt(process.match(/\d+/)[0]);
+    const pidMatch = process.match(/\d+/);
+    if (!pidMatch || pidMatch.length === 0) return null;
+    return parseInt(pidMatch[0]);
 }
 
 function mergeFfmpegPhp (phpObj, ffmpegArr) {
