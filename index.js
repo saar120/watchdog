@@ -1,29 +1,19 @@
-const ffmpegParser = require('./parsers/ffmpegParser');
-const phpParser = require('./parsers/phpParser');
-
-const {processesToArr, mergeFfmpegPhp} = require('./utils/utils');
-const {writeToJSONFile} = require("./utils/fsUtils");
+const {getProcesses} = require("./utils/execUtil");
+const liveUsersStrategy = require("./strategies/liveUsersStrategy");
 
 
 
-const main = () => {
-    // mock data
-    const ffmpegOutput = require('./mockData/ffmpeg');
-    const phpOutput = require('./mockData/php');
+const main = async () => {
+    const ffmpegOutput = await getProcesses('ffmpeg');
+    const phpOutput = await getProcesses('php');
 
-    // prod data
-    // const ffmpegOutput = getProcesses('ffmpeg');
-    // const phpOutput = getProcesses('php');
-
-    const ffmpegProcesses = processesToArr(ffmpegOutput);
-    const phpProcesses = processesToArr(phpOutput);
-
-    const ffmpegParsed = ffmpegParser.parseMany(ffmpegProcesses);
-    const phpParsed = phpParser.parseManyByUser(phpProcesses);
-
-    const merged = mergeFfmpegPhp(phpParsed, ffmpegParsed);
-
-    writeToJSONFile('data.json',merged);
+    liveUsersStrategy(ffmpegOutput, phpOutput);
 };
 
 main()
+    .then(() => {
+    console.log('done');
+})
+    .catch(err => {
+    console.log(err);
+});
