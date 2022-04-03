@@ -2,6 +2,7 @@ const {getPid} = require('../utils/utils')
 const phpParser = {
     parseOne: function (phpOutput) {
         const item = {};
+        if (!phpOutput)return null;
         item.pid = getPid(phpOutput);
         const data = phpOutput.substring(phpOutput.indexOf('heartbeat.php'), phpOutput.length).split(' ');// only get heartbeat.php
         if (data[0] !== 'heartbeat.php')  return null;
